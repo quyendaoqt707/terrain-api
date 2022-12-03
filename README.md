@@ -1,4 +1,4 @@
-Wellcome to TerraInn Project
+Welcome to TerraInn Project
 
 Các thành phần đã lược bỏ:
 * Validate input
@@ -24,17 +24,14 @@ Các thành phần đã lược bỏ:
 - `Usage #############################`
   + Install golang: https://golang.org/
   + Create file .env from .env.dist
-  + Config info connect Database
+  + Config info connect Database via `.env` file
   + On command line project run: go mod init TerraInnAPI (Tên thư mục project cũng phải là 'TerraInnAPI') -> go mod tidy to download package
   + Run Project:
     1. $ go run main.go
     2. $ go run .
-Note: Tên thư mục phải trùng với tên package
+  Note: Tên thư mục phải trùng với tên package
 - `Git #############################`
-  + Pull new code before doing task
-  + Push code:
-    1. If issue: issuecode. Ex HYOUKA-01
-    2. Other task: name_develop. Ex nam_develop
+  + https://github.com/quyendaoqt707/terrain-api
 
-- `Version/ Function #############################`
-  2022-07-18: Init Source.
+- `Log #############################`
+  2022-12-03: Init Source.

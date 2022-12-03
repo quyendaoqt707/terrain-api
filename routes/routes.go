@@ -36,28 +36,6 @@ func InitRoutes(app *fiber.App) {
 	user.Post("/insert", controller.InsertUser)
 	user.Put("/change-password", controller.ChangePasswordUser)
 
-	// review_list := user.Group("/review-list")
-	// review_list.Get("/confirm-list", controller.GetConfirmReviewList)                                      ///NOTE: Refactored
-	// review_list.Get("/register-list", controller.GetRegisterReviewList)                                    ///NOTE: Refactored
-	// review_list.Get("/register-list/history/:application_id<int>", controller.GetApplicationProcessStatus) //:NOTE: Refactored // Lấy ra trạng thái xác nhận của đơn theo proccess/step
-
-	// //NOTE: Thêm/Cập nhật/Xoá
-	// review_application := user.Group("/review-application")
-	// review_application.Post("/create", controller.CreateReviewApplication) ///NOTE: Refactored
-	// review_application.Put("/update/:application_id<int>", controller.UpdateReviewApplication)
-	// review_application.Delete("/delete/:application_id<int>", controller.DeleteReviewApplication) // NOTE: Refactoring
-	// review_application.Post("/renewEmployeeInfo", controller.RecalcEmployeeInfo)
-	// ///Confirm đơn đánh giá: APPROVE hoặc DENY
-	// review_application.Put("/confirm/:application_id<int>", controller.ConfirmReviewApplication) ///confirm/:application_id<int>"  ///NOTE: Refactored
-
-	// //Lấy lịch sử thay đổi của đơn
-	// review_application.Get("/history/:application_id<int>", controller.GetApplicationHistory) ///NOTE: Refactored
-
-	// //Lấy chi tiết đơn đánh giá:
-	// review_application.Get("/:application_id<int>", controller.GetReviewApplication)
-	// review_application.Get("", controller.GetReviewApplication)          //NOTE: Giữ nguyên // đơn trống/đăng kí
-	// review_application.Get("/criteria-grid", controller.GetCriteriaGrid) //NOTE: giữ nguyên
-
 	// //Setting Flow:
 	// user.Post("setting/flow/createFlow", controller.CreateFlow_Hyouka)
 	// user.Delete("setting/flow/deleteFlow", controller.DeleteFlow_Hyouka)

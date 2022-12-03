@@ -30,7 +30,7 @@ func Login(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "username_password_incorrect"}) //401
 	}
 	// Check password
-	if err := model.CheckPasswordHash(user.Password, input.Password); err != nil {
+	if err := utils.CheckPasswordHash(user.Password, input.Password); err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "username_password_incorrect"})
 	}
 
@@ -102,7 +102,7 @@ func InsertUser(c *fiber.Ctx) error {
 	* ------------------------
 	 */
 	user.Email = input.Email
-	user.Password = model.HashPassword(input.Password)
+	user.Password = utils.HashPassword(input.Password)
 
 	// Hash Password and Insert User DB
 	// user.UserPassword = model.HashPassword(param.Password)
@@ -142,12 +142,12 @@ func ChangePasswordUser(c *fiber.Ctx) error {
 	}
 
 	// Check password
-	if err := model.CheckPasswordHash(user.Password, param.CurrentPassword); err != nil {
+	if err := utils.CheckPasswordHash(user.Password, param.CurrentPassword); err != nil {
 		return c.Status(501).JSON(fiber.Map{"message": "current_password_incorrect"})
 	}
 
 	// Hash new password and Update new password
-	user.Password = model.HashPassword(param.NewPassword)
+	user.Password = utils.HashPassword(param.NewPassword)
 	db.Save(&user)
 
 	return c.JSON(fiber.Map{
