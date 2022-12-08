@@ -27,11 +27,11 @@ func Login(c *fiber.Ctx) error {
 	db := database.DB
 
 	if res := db.Where("email = ?", input.Email).First(&user); res.RowsAffected <= 0 {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "username_password_incorrect"}) //401
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "email_or_password_incorrect"}) //401
 	}
 	// Check password
 	if err := utils.CheckPasswordHash(user.Password, input.Password); err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "username_password_incorrect"})
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "email_or_password_incorrect"})
 	}
 
 	// Return response
@@ -61,7 +61,7 @@ func GetUser(c *fiber.Ctx) error {
 		Phone       string `json:"phone"`
 		FullName    string `json:"full_name"`
 		DateOfBirth string `json:"date_of_birth"`
-		CidNumber   bool   `json:"cid_number"`
+		CidNumber   string `json:"cid_number"`
 	}
 	returnUser := new(ReturnStruct)
 	deepcopier.Copy(user).To(returnUser)
@@ -77,6 +77,7 @@ func InsertUser(c *fiber.Ctx) error {
 	type paramRequest struct {
 		Email    string
 		Password string
+		IsAdmin  bool `json:"is_admin"`
 	}
 
 	// param := new(paramRequest)
@@ -103,6 +104,7 @@ func InsertUser(c *fiber.Ctx) error {
 	 */
 	user.Email = input.Email
 	user.Password = utils.HashPassword(input.Password)
+	user.IsAdmin = input.IsAdmin
 
 	// Hash Password and Insert User DB
 	// user.UserPassword = model.HashPassword(param.Password)
@@ -118,7 +120,7 @@ func InsertUser(c *fiber.Ctx) error {
 	})
 }
 
-func ChangePasswordUser(c *fiber.Ctx) error {
+func ChangePassword(c *fiber.Ctx) error {
 	db := database.DB
 	user := new(model.User)
 
@@ -128,11 +130,11 @@ func ChangePasswordUser(c *fiber.Ctx) error {
 	}
 
 	param := new(paramRequest)
-	param.CurrentPassword = c.FormValue("current_password")
-	param.NewPassword = c.FormValue("new_password")
+	// param.CurrentPassword = c.FormValue("current_password")
+	// param.NewPassword = c.FormValue("new_password")
 
 	//Check password lens
-	if len(param.CurrentPassword) < 1 || len(param.NewPassword) < 1 {
+	if err := c.BodyParser(&param); err != nil || len(param.CurrentPassword) < 1 || len(param.NewPassword) < 1 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "bad_request"})
 	}
 
@@ -166,7 +168,7 @@ func UpdateProfile(c *fiber.Ctx) error {
 		Phone       string `json:"phone" validate:"required"`
 		FullName    string `json:"full_name" validate:"required"`
 		DateOfBirth string `json:"date_of_birth" validate:"required"`
-		CidNumber   bool   `json:"cid_number" validate:"required"`
+		CidNumber   string `json:"cid_number" validate:"required"`
 	}
 
 	param := new(UpdateParam)
@@ -176,16 +178,14 @@ func UpdateProfile(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status_code": STATUS_CODE_FAILURE, "message": "bad_request"})
 	}
-
 	email := c.Locals("email").(string)
 
 	// err := db.Exec(`UPDATE "tbl_user_info" SET language= ?  WHERE user_name = ?`, language, username)
-	err = db.Model(model.UserInfo{}).Where("email = ?", email).Updates(model.User{Email: param.Email, Phone: param.Phone, FullName: param.FullName, DateOfBirth: param.DateOfBirth, CidNumber: param.CidNumber}).Error
-	if err == nil {
+	rs := db.Model(model.User{}).Where("email = ?", email).Updates(model.User{Email: param.Email, Phone: param.Phone, FullName: param.FullName, DateOfBirth: param.DateOfBirth, CidNumber: param.CidNumber}) //Where phải trước Updates
+	if rs.Error == nil && rs.RowsAffected > 0 {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{"status_code": STATUS_CODE_SUCCESS, "message": "success"})
 
 	}
-
 	// Return response
 	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status_code": STATUS_CODE_FAILURE, "message": "system_error"})
 }

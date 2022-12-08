@@ -12,35 +12,32 @@ func InitRoutes(app *fiber.App) {
 	// Welcome
 	// app.Get("/", controller.Welcome)
 
-	/**
-	*
-	*	Authen
-	* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	*
-	**/
+	/** Without AppAuthen**/
 	api := app.Group("/api")
 	api.Post("/login", controller.Login)
+	api.Post("/register", controller.InsertUser)
+	api.Get("/motel-group", controller.GetModelGroup)
+	api.Get("/motel", controller.GetModelDetail)
 
-	/**
-	*
-	*	Tbl User
-	* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	*
-	**/
 	user := api.Group("/user", middleware.AppAuthen)
 	// user.Put("/updateLanguageAndTheme", controller.UpdateLanguageAndTheme)
 
 	user.Post("/logout", controller.Logout)
-	// user.Post("/check-token", controller.CheckToken)
 	user.Get("", controller.GetUser)
-	user.Post("/insert", controller.InsertUser)
-	user.Put("/change-password", controller.ChangePasswordUser)
+	user.Put("/update", controller.UpdateProfile)
+	user.Put("/change-password", controller.ChangePassword)
 
-	// //Setting Flow:
-	// user.Post("setting/flow/createFlow", controller.CreateFlow_Hyouka)
-	// user.Delete("setting/flow/deleteFlow", controller.DeleteFlow_Hyouka)
-	// user.Put("setting/flow/updateFlow", controller.UpdateFlow_Hyouka)
-	// user.Get("setting/flow/getFlowList", controller.GetFlowListOrDetail_Hyouka)
+	// Motel
+	motel := api.Group("/motel", middleware.AppAuthen)
+	motel.Post("", controller.CreateMotel)
+	motel.Delete(":id<int>", controller.DelMotel)
+	motel.Put("", controller.UpdateMotel)
+
+	// Motel Group
+	motelGroup := api.Group("/motel-group", middleware.AppAuthen)
+	motelGroup.Post("", controller.CreateMotelGroup)
+	motelGroup.Delete(":id<int>", controller.DelMotelGroup)
+	motelGroup.Put("", controller.UpdateMotelGroup)
 
 	// //Setting Flow Hyouka (new version):
 	// // user.Post("setting/flow_hyouka/createFlow", controller.CreateFlow_Hyouka)

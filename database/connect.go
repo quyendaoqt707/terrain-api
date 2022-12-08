@@ -8,6 +8,7 @@ import (
 	// postgresDriver "gorm.io/driver/postgres"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB
@@ -30,7 +31,9 @@ func Connect() bool {
 	//MySQL DNS:
 	// dsn := "user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", db_user, db_password, db_host, db_port, db_name)
-	DB, err = gorm.Open(mysql.Open(dsn))
+	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil {
 		fmt.Println("CONNECT DB ERROR: ", err)
 	}
@@ -48,14 +51,17 @@ func Connect() bool {
 	Only use for dev
 	*/
 
-	if config.Config("DB_REMIGRATE") == "true" {
+	if config.Config("DB_CLEARALL") == "true" {
 		DB.Migrator().DropTable(&model.User{})
-		// DB.Migrator().DropTable(&model.ReviewApplication{})
-		// DB.Migrator().DropTable(&model.ApprovalFlow{})
+		DB.Migrator().DropTable(&model.Motel{})
+		DB.Migrator().DropTable(&model.MotelGroup{})
 		// DB.Migrator().DropTable(&model.ApprovalFlowDetail{})
 
 		// Migrate the database
 		DB.AutoMigrate(&model.User{})
+		DB.AutoMigrate(&model.Motel{})
+		DB.AutoMigrate(&model.MotelGroup{})
+
 	}
 
 	if config.Config("DB_INIT") == "true" {
