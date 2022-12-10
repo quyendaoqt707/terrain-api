@@ -36,8 +36,9 @@ func Login(c *fiber.Ctx) error {
 
 	// Return response
 	return c.JSON(fiber.Map{
-		"message": "success",
-		"token":   utils.GenBase64Token(input.Email),
+		"is_admin": user.IsAdmin,
+		"message":  "success",
+		"token":    utils.GenBase64Token(input.Email),
 	})
 }
 

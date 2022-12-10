@@ -31,9 +31,14 @@ func Connect() bool {
 	//MySQL DNS:
 	// dsn := "user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", db_user, db_password, db_host, db_port, db_name)
-	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
-	})
+
+	var configOptions gorm.Config
+	if config.Config("DEBUG_MODE") == "true" {
+		configOptions = gorm.Config{
+			Logger: logger.Default.LogMode(logger.Info), //Debug ONLY
+		}
+	}
+	DB, err = gorm.Open(mysql.Open(dsn), &configOptions)
 	if err != nil {
 		fmt.Println("CONNECT DB ERROR: ", err)
 	}
@@ -55,12 +60,15 @@ func Connect() bool {
 		DB.Migrator().DropTable(&model.User{})
 		DB.Migrator().DropTable(&model.Motel{})
 		DB.Migrator().DropTable(&model.MotelGroup{})
-		// DB.Migrator().DropTable(&model.ApprovalFlowDetail{})
+		DB.Migrator().DropTable(&model.Invoice{})
+		DB.Migrator().DropTable(&model.Request{})
 
 		// Migrate the database
 		DB.AutoMigrate(&model.User{})
 		DB.AutoMigrate(&model.Motel{})
 		DB.AutoMigrate(&model.MotelGroup{})
+		DB.AutoMigrate(&model.Invoice{})
+		DB.AutoMigrate(&model.Request{})
 
 	}
 
