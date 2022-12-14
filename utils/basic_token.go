@@ -7,16 +7,16 @@ import (
 	"fmt"
 )
 
-func GenBase64Token(email string) string {
-	return string(base64.StdEncoding.EncodeToString([]byte(email)))
+func GenBase64Token(phone string) string {
+	return string(base64.StdEncoding.EncodeToString([]byte(phone)))
 }
 
 func ExtractBase64Token(token string) (string, error) {
-	email, err := base64.StdEncoding.DecodeString(token)
+	phone, err := base64.StdEncoding.DecodeString(token)
 	if err != nil {
 		return "", err
 	}
-	return string(email), nil
+	return string(phone), nil
 }
 
 func HashPassword(password string) string {

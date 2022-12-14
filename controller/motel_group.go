@@ -9,7 +9,7 @@ import (
 )
 
 func GetGroupList(c *fiber.Ctx) error {
-	owner := c.Locals("email").(string)
+	owner := c.Locals("phone").(string)
 
 	var groupList []model.MotelGroup
 	rs := database.DB.Find(&groupList, fmt.Sprintf("owner_id = '%s'", owner)) //with primary key
@@ -51,7 +51,7 @@ func CreateMotelGroup(c *fiber.Ctx) error {
 	}
 
 	fmt.Printf("%+v", motelGroup)
-	motelGroup.OwnerId = c.Locals("email").(string)
+	motelGroup.OwnerId = c.Locals("phone").(string)
 
 	rs := database.DB.Create(&motelGroup) //must be pass an address, otherwise -> panic: reflect.flag.mustBeAssignableSlow(0xc0000b2d00?)
 	if rs.Error != nil || rs.RowsAffected == 0 {
@@ -68,7 +68,7 @@ func UpdateMotelGroup(c *fiber.Ctx) error {
 	if c.BodyParser(&motelGroup) != nil || motelGroup.Id == 0 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "bad_request"})
 	}
-	motelGroup.OwnerId = c.Locals("email").(string)
+	motelGroup.OwnerId = c.Locals("phone").(string)
 	rs := database.DB.Save(motelGroup)
 	if rs.Error != nil || rs.RowsAffected == 0 {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "system_error"})

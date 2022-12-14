@@ -49,7 +49,7 @@ func getRequestById(c *fiber.Ctx, id string) error {
 	// rs := database.DB.First(&request, id) //with primary key
 	sql := fmt.Sprintf(`
 	SELECT request.*,user.full_name AS creator_name, motel.name AS room_name, motel_group.group_name FROM request
-LEFT JOIN user ON user.email = request.creator
+LEFT JOIN user ON user.phone = request.creator
 LEFT JOIN motel ON motel.id = request.motel_id
 LEFT JOIN motel_group ON motel_group.id = motel.group_id
 WHERE request.id = %s`, id)
@@ -88,7 +88,7 @@ func CreateRequest(c *fiber.Ctx) error {
 	}
 
 	// fmt.Printf("%+v", invoice)
-	// motelGroup.OwnerId = c.Locals("email").(string)
+	// motelGroup.OwnerId = c.Locals("phone").(string)
 
 	rs := database.DB.Create(&request) //must be pass an address, otherwise -> panic: reflect.flag.mustBeAssignableSlow(0xc0000b2d00?)
 	if rs.Error != nil || rs.RowsAffected == 0 {
@@ -104,7 +104,7 @@ func UpdateRequest(c *fiber.Ctx) error {
 	if c.BodyParser(&request) != nil || request.Id == 0 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "bad_request"})
 	}
-	// invoice.OwnerId = c.Locals("email").(string)
+	// invoice.OwnerId = c.Locals("phone").(string)
 	rs := database.DB.Save(request)
 	if rs.Error != nil || rs.RowsAffected == 0 {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "system_error"})
