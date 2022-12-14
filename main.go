@@ -1,9 +1,11 @@
 package main
 
 import (
+	"TerraInnAPI/config"
 	"TerraInnAPI/database"
 	"TerraInnAPI/routes"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -32,8 +34,12 @@ func main() {
 	routes.InitRoutes(app)
 
 	// Run app
-	// port := config.Config("ENV_PORT")
 	port := "3000"
+	if os.Getenv("PRODUCTION") == "true" {
+		port = os.Getenv("PORT")
+	} else {
+		port = config.Config("ENV_PORT")
+	}
 
 	addr := flag.String("addr", ":"+port, "http service address")
 	flag.Parse()
