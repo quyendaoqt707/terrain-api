@@ -26,9 +26,16 @@ func GetInvoice(c *fiber.Ctx) error {
 }
 
 func getInvoiceDetail(c *fiber.Ctx, id string) error {
-	invoice := new(model.Invoice)
+	var returnObject struct {
+		model.Invoice
+		RoomName string `json:"room_name"`
+	}
+	// invoice := new(model.Invoice)
 
-	rs := database.DB.First(&invoice, id) //with primary key
+	// rs := database.DB.First(&invoice, id) //with primary key
+	rs := database.DB.Table("invoices").Select("invoices.*, motel.name AS room_name").
+		Joins("LEFT JOIN motel ON motel.id = invoices.motel_id").
+		Where("invoices.id = ?", id).Scan(&returnObject)
 	if rs.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "system_error"})
 	}
@@ -37,7 +44,9 @@ func getInvoiceDetail(c *fiber.Ctx, id string) error {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "not_found"})
 
 	}
-	return c.Status(fiber.StatusOK).JSON(invoice)
+	// return c.Status(fiber.StatusOK).JSON(invoice)
+	return c.Status(fiber.StatusOK).JSON(returnObject)
+
 }
 
 func getListInvoiceByMonth(c *fiber.Ctx, groupId string, month string) error {
