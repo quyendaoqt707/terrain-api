@@ -18,7 +18,7 @@ type Invoice struct {
 	WaterIndexAfter  int       `json:"water_index_after"`
 	DueDate          string    `json:"due_date"`
 	PayStatus        int       `json:"pay_status"` //0 là chưa tt. 1 là đã tt 2 là quá hạn.
-	CreateAt         time.Time `json:"create_at"`
+	CreateAt         time.Time `json:"create_at" gorm:"autoCreateTime"`
 	Note             string    `json:"note"`
 }
 

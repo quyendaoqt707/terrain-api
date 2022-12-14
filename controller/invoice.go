@@ -28,7 +28,8 @@ func GetInvoice(c *fiber.Ctx) error {
 func getInvoiceDetail(c *fiber.Ctx, id string) error {
 	var returnObject struct {
 		model.Invoice
-		RoomName string `json:"room_name"`
+		RoomName    string `json:"room_name"`
+		TotalAmount int    `json:"total_amount"`
 	}
 	// invoice := new(model.Invoice)
 
@@ -45,6 +46,11 @@ func getInvoiceDetail(c *fiber.Ctx, id string) error {
 
 	}
 	// return c.Status(fiber.StatusOK).JSON(invoice)
+
+	elecAmount := returnObject.ElecRate * (returnObject.ElecIndexBefore - returnObject.ElecIndexAfter)
+	waterAmount := returnObject.WaterRate * (returnObject.WaterIndexBefore - returnObject.WaterIndexAfter)
+	serviceAmount := returnObject.ParkingFee + returnObject.RentalPrice + returnObject.GarbageFee + returnObject.ServiceFee
+	returnObject.TotalAmount = elecAmount + waterAmount + serviceAmount
 	return c.Status(fiber.StatusOK).JSON(returnObject)
 
 }

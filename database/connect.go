@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	// postgresDriver "gorm.io/driver/postgres"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -23,6 +24,8 @@ func Connect() bool {
 	db_user := config.Config("DB_USER")
 	db_password := config.Config("DB_PASSWORD")
 	db_name := config.Config("DB_NAME")
+
+	fmt.Println(db_password)
 	// db_ssh := config.Config("DB_SSH")
 	// db_timezone := config.Config("APP_TIME_ZONE")
 
@@ -40,7 +43,8 @@ func Connect() bool {
 	}
 	DB, err = gorm.Open(mysql.Open(dsn), &configOptions)
 	if err != nil {
-		fmt.Println("CONNECT DB ERROR: ", err)
+		fmt.Println("CONNECT DB ERROR: ")
+		panic(err)
 	}
 	// Open and create db: https://golangbot.com/connect-create-db-mysql/
 

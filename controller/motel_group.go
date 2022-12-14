@@ -8,6 +8,22 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func GetGroupList(c *fiber.Ctx) error {
+	owner := c.Locals("email").(string)
+
+	var groupList []model.MotelGroup
+	rs := database.DB.Find(&groupList, fmt.Sprintf("owner_id = '%s'", owner)) //with primary key
+	if rs.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "system_error"})
+	}
+
+	if rs.RowsAffected == 0 {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "not_found"})
+
+	}
+
+	return c.Status(fiber.StatusOK).JSON(groupList)
+}
 func GetModelGroup(c *fiber.Ctx) error {
 	id := c.Query("id")
 	if len(id) == 0 {

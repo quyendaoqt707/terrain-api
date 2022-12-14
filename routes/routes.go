@@ -32,9 +32,11 @@ func InitRoutes(app *fiber.App) {
 	motel.Post("", controller.CreateMotel)
 	motel.Delete(":id<int>", controller.DelMotel)
 	motel.Put("", controller.UpdateMotel)
+	motel.Post("/asset", controller.UploadMotelImg)
 
 	// Motel Group
 	motelGroup := api.Group("/motel-group", middleware.AppAuthen)
+	motelGroup.Get("/list", controller.GetGroupList)
 	motelGroup.Post("", controller.CreateMotelGroup)
 	motelGroup.Delete(":id<int>", controller.DelMotelGroup)
 	motelGroup.Put("", controller.UpdateMotelGroup)
