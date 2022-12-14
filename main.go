@@ -1,7 +1,6 @@
 package main
 
 import (
-	"TerraInnAPI/config"
 	"TerraInnAPI/database"
 	"TerraInnAPI/routes"
 	"log"
@@ -33,7 +32,8 @@ func main() {
 	routes.InitRoutes(app)
 
 	// Run app
-	port := config.Config("ENV_PORT")
+	// port := config.Config("ENV_PORT")
+	port := "3000"
 
 	addr := flag.String("addr", ":"+port, "http service address")
 	flag.Parse()
