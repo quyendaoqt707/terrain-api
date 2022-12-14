@@ -1,7 +1,6 @@
 package database
 
 import (
-	"TerraInnAPI/config"
 	"TerraInnAPI/model"
 	"fmt"
 
@@ -27,6 +26,7 @@ func Connect() bool {
 	// db_name := config.Config("DB_NAME")
 	// db_clearall := config.Config("DB_CLEARALL")
 	// db_init := config.Config("DB_INIT")
+	// db_debugmode := onfig.Config("DEBUG_MODE")
 
 	//.HARDCODE MODE:
 	db_host := "db4free.net"
@@ -36,6 +36,7 @@ func Connect() bool {
 	db_name := "terrainn_db"
 	db_clearall := "true"
 	db_init := "true"
+	db_debugmode := "true"
 
 	// fmt.Println(db_password)
 	// db_ssh := config.Config("DB_SSH")
@@ -48,7 +49,9 @@ func Connect() bool {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", db_user, db_password, db_host, db_port, db_name)
 
 	var configOptions gorm.Config
-	if config.Config("DEBUG_MODE") == "true" {
+	// if config.Config("DEBUG_MODE") == "true" {
+	if db_debugmode == "true" {
+
 		configOptions = gorm.Config{
 			Logger: logger.Default.LogMode(logger.Info), //Debug ONLY
 		}

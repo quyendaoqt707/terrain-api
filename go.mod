@@ -4,7 +4,6 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.40.1
-	github.com/joho/godotenv v1.4.0
 	github.com/ulule/deepcopier v0.0.0-20200430083143-45decc6639b6
 	gorm.io/gorm v1.24.2
 )
