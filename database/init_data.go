@@ -51,7 +51,7 @@ func initMotel() {
 func initMotelGroup() {
 	gr1 := new(model.MotelGroup)
 	gr1.Address = "44 Khuc Thua Du, Ben Nghe, Quan 1"
-	gr1.OwnerId = "admin@gmail.com"
+	gr1.OwnerId = "0123456789"
 	gr1.GroupName = "Khu trọ An Khang"
 
 	DB.Create(gr1)
@@ -104,7 +104,7 @@ func initInvoice() {
 
 func initRequest() {
 	rq1 := new(model.Request)
-	rq1.Creator = "abc@gmail.com"
+	rq1.Creator = "0123456789"
 	rq1.IsFromAdmin = false
 	rq1.MotelId = 1
 	rq1.Title = "Đăng kí dịch vụ wifi"
@@ -114,7 +114,7 @@ func initRequest() {
 	DB.Create(rq1)
 
 	rq2 := new(model.Request)
-	rq2.Creator = "admin@gmail.com"
+	rq2.Creator = "0123456789"
 	rq2.IsFromAdmin = true
 	rq2.MotelId = 1
 	rq2.Title = "Thông báo thay đổi phương thức thanh toán"

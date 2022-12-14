@@ -10,7 +10,7 @@ import (
 func InitRoutes(app *fiber.App) {
 
 	// Welcome
-	// app.Get("/", controller.Welcome)
+	app.Get("/", controller.Wellcome)
 
 	/** Without AppAuthen**/
 	api := app.Group("/api")

@@ -1,0 +1,491 @@
+Can't communicate with flyctl's background agent.
+
+Run 'flyctl agent restart'.
+PS D:\PROJECTS\TerraInnAPI> flyctl agent restart
+PS D:\PROJECTS\TerraInnAPI> flyctl doctor       
+Testing authentication token... PASSED
+Testing flyctl agent... PASSED
+Testing local Docker instance... Nope
+Pinging WireGuard gateway (give us a sec)... PASSED
+terrainn-api app has not been deployed yet. Skipping app checks. Deploy using `flyctl deploy`.
+PS D:\PROJECTS\TerraInnAPI> flyctl launch
+An existing fly.toml file was found for app terrainn-api
+App is not running, deploy...
+==> Building image
+Remote builder fly-builder-lingering-sun-9545 ready
+==> Building image with Buildpacks
+--> docker host: 20.10.12 linux x86_64
+base: Pulling from paketobuildpacks/builder
+06e8c541e087: Pulling fs layer
+c30584dde46e: Pulling fs layer
+d9a24b8b7c0d: Pulling fs layer
+1dcf79b4cfe3: Pulling fs layer
+eba8a5b3533a: Pulling fs layer
+6b34f4d5f488: Pulling fs layer
+d34b833baa81: Pulling fs layer
+70e0bea64ce8: Pulling fs layer
+def02eae9adc: Pulling fs layer
+386f0ca71b56: Pulling fs layer
+36a07c5f6ee2: Pulling fs layer
+a4a39a57f2d4: Pulling fs layer
+f146d66e13e6: Pulling fs layer
+6f4bf6a9a64a: Pulling fs layer
+00d89357b41e: Pulling fs layer
+6c0c50812989: Pulling fs layer
+bf32d3cbc5fb: Pulling fs layer
+7f51aba1b732: Pulling fs layer
+fd635057ce0f: Pulling fs layer
+06e7d593c4d0: Pulling fs layer
+9b167d89bf10: Pulling fs layer
+ad443f24b1ed: Pulling fs layer
+fbb9179cbbb1: Pulling fs layer
+5552095f2bca: Pulling fs layer
+97cb900ebcb6: Pulling fs layer
+8fc3d2715506: Pulling fs layer
+8becc22bd8bf: Pulling fs layer
+1887753a264b: Pulling fs layer
+a77b05080df7: Pulling fs layer
+fd1dea194195: Pulling fs layer
+0425fa02f163: Pulling fs layer
+eb0bbd785bbe: Pulling fs layer
+71dea8ea27aa: Pulling fs layer
+06a857524908: Pulling fs layer
+b8531cb50329: Pulling fs layer
+bfd10adfccfc: Pulling fs layer
+a3965f7e44a0: Pulling fs layer
+9a57ac9943cc: Pulling fs layer
+a481a85d065a: Pulling fs layer
+ea8a1d97cc01: Pulling fs layer
+a4c83676de12: Pulling fs layer
+676417eb4703: Pulling fs layer
+da18a1f88838: Pulling fs layer
+f48cc60e401e: Pulling fs layer
+a3b39bcdc93c: Pulling fs layer
+006a2f18e40e: Pulling fs layer
+fad10dc58661: Pulling fs layer
+4d3af298143a: Pulling fs layer
+3634d3697ffa: Pulling fs layer
+41869a3aefd1: Pulling fs layer
+2cac06795517: Pulling fs layer
+bb4158ed2f15: Pulling fs layer
+0e8ccef90b89: Pulling fs layer
+9c514c36ed7a: Pulling fs layer
+d598d92121f8: Pulling fs layer
+891f774dc72a: Pulling fs layer
+4c1b5ea6b6c1: Pulling fs layer
+9cdc2f9c6146: Pulling fs layer
+86b371e68910: Pulling fs layer
+5512f631e4ce: Pulling fs layer
+3e5c4576ab05: Pulling fs layer
+1bd4b8e3352e: Pulling fs layer
+434e7c2582c6: Pulling fs layer
+3afbc3f8b0b6: Pulling fs layer
+3b86161ce576: Pulling fs layer
+f6d894dde2aa: Pulling fs layer
+6e554da3a4c4: Pulling fs layer
+fd635057ce0f: Waiting
+06e7d593c4d0: Waiting
+2cd3f681332f: Pulling fs layer
+053ee41df41d: Pulling fs layer
+9b167d89bf10: Waiting
+ad443f24b1ed: Waiting
+1887753a264b: Waiting
+8afcdda17c24: Pulling fs layer
+a77b05080df7: Waiting
+7a6ca348b109: Pulling fs layer
+fd1dea194195: Waiting 
+0425fa02f163: Waiting
+366a6ee467fa: Pulling fs layer
+eb0bbd785bbe: Waiting
+cfe17b423a80: Pulling fs layer
+b8531cb50329: Waiting
+cd146e648d04: Pull complete
+9bd647d268df: Pull complete
+e47a64eadb40: Pull complete
+3a110c4fa474: Pull complete
+32f9dd4b1a60: Pull complete
+38876f988da3: Pull complete
+559f5c311852: Pull complete
+ad46ccb5cd64: Pull complete
+0a7bc4e8dc05: Pull complete
+986ed8abe2d1: Pull complete
+9ba1a1a608b2: Pull complete
+c25b5193cef4: Pull complete
+fcf29a1baad8: Pull complete
+7e8facf10cca: Pull complete
+7964594a8296: Pull complete
+72ad9888618d: Pull complete
+4f4fb700ef54: Pull complete
+Digest: sha256:eb63ceee5af02e341ba534870f6501aa5a58bf9c1cf70a2d7ed6a1dab0fa5758
+Status: Downloaded newer image for paketobuildpacks/builder:base
+base-cnb: Pulling from paketobuildpacks/run
+06e8c541e087: Already exists
+c30584dde46e: Already exists
+4cfd37021034: Pull complete
+fd3847d6045e: Pull complete
+213b5db54dca: Pull complete
+dbe7c473a7d5: Pull complete
+bedfcda60c01: Pull complete
+Digest: sha256:dd32ea61706e174d594cd5fba4a38f68f1269f1be8caae1b08c1f2f84ac29060
+Status: Downloaded newer image for paketobuildpacks/run:base-cnb
+latest: Pulling from paketo-buildpacks/go
+c25b5193cef4: Pull complete
+a481a85d065a: Pull complete
+fcf29a1baad8: Pull complete
+00d89357b41e: Pull complete
+bb4158ed2f15: Pull complete
+8afe1e9fc120: Pull complete
+a6cd17527f03: Pull complete
+6c0c50812989: Pull complete
+41869a3aefd1: Pull complete
+32f9dd4b1a60: Pull complete
+Digest: sha256:15c90c75bea03a7b33c3004778d51883e9ff8842d785b8508cf782cc356c2ed1
+Status: Downloaded newer image for gcr.io/paketo-buildpacks/go:latest
+===> DETECTING
+5 of 9 buildpacks participating
+paketo-buildpacks/ca-certificates 3.5.1
+paketo-buildpacks/go-dist         2.2.2
+paketo-buildpacks/git             1.0.0
+paketo-buildpacks/go-mod-vendor   1.0.6
+paketo-buildpacks/go-build        2.0.7
+===> ANALYZING
+Previous image with name "registry.fly.io/terrainn-api:cache" not found
+===> RESTORING
+===> BUILDING
+
+Paketo Buildpack for CA Certificates 3.5.1
+  https://github.com/paketo-buildpacks/ca-certificates
+  Launch Helper: Contributing to layer
+    Creating /layers/paketo-buildpacks_ca-certificates/helper/exec.d/ca-certificates-helper
+Paketo Buildpack for Go Distribution 2.2.2
+  Resolving Go version
+    Candidate version sources (in priority order):
+      go.mod    -> ">= 1.18"
+      <unknown> -> ""
+
+    Selected Go version (using go.mod): 1.19.4
+
+  Executing build process
+    Installing Go 1.19.4
+      Completed in 9.152s
+
+  Generating SBOM for /layers/paketo-buildpacks_go-dist/go
+      Completed in 0s
+
+Paketo Buildpack for Git 1.0.0
+  Configuring build environment
+    REVISION -> "4122bf56b7c882fab8de9988767703d9edac34b1"
+
+  Configuring launch environment
+    REVISION -> "4122bf56b7c882fab8de9988767703d9edac34b1"
+
+Paketo Buildpack for Go Mod Vendor 1.0.6
+  Checking module graph
+    Running 'go mod graph'
+      Completed in 185ms
+
+  Executing build process
+    Running 'go mod vendor'
+      Completed in 1.475s
+
+  Generating SBOM for /workspace/go.mod
+      Completed in 4ms
+
+Paketo Buildpack for Go Build 2.0.7
+  Executing build process
+    Running 'go build -o /layers/paketo-buildpacks_go-build/targets/bin -buildmode pie -trimpath .'
+      Completed in 18.664s
+
+  Generating SBOM for /layers/paketo-buildpacks_go-build/targets/bin
+      Completed in 7ms
+
+  Assigning launch processes:
+    TerraInnAPI (default): /layers/paketo-buildpacks_go-build/targets/bin/TerraInnAPI
+
+===> EXPORTING
+Adding layer 'paketo-buildpacks/ca-certificates:helper'
+Adding layer 'paketo-buildpacks/git:git'
+Adding layer 'paketo-buildpacks/go-build:targets'
+Adding 1/1 app layer(s)
+Adding layer 'launcher'
+Adding layer 'config'
+Adding layer 'process-types'
+Adding label 'io.buildpacks.lifecycle.metadata'
+Adding label 'io.buildpacks.build.metadata'
+Adding label 'io.buildpacks.project.metadata'
+Adding label 'org.opencontainers.image.revision'
+Setting default process type 'TerraInnAPI'
+Saving registry.fly.io/terrainn-api:cache...
+*** Images (b84fd0923a93):
+      registry.fly.io/terrainn-api:cache
+      registry.fly.io/terrainn-api:deployment-01GM8K17SAH7NV757FYP51WVRD
+Adding cache layer 'paketo-buildpacks/go-dist:go'
+Adding cache layer 'paketo-buildpacks/go-mod-vendor:mod-cache'
+Adding cache layer 'paketo-buildpacks/go-build:gocache'
+--> Building image done
+==> Pushing image to fly
+The push refers to repository [registry.fly.io/terrainn-api]
+8ac9db4cd99d: Preparing
+cbd8319a189d: Preparing
+6c749df2cfd6: Preparing
+ea900f24d0ef: Preparing
+094e1982c5f2: Preparing
+0fbb862e5999: Pushed
+d8355a9bda2e: Pushed
+ebe18aaca203: Pushed
+58cd5c829e72: Pushed
+bb79f4a86300: Pushed
+25b4e98574e1: Pushed
+15c5892817da: Pushed
+917d28d47a6a: Pushed
+45bbe3d22998: Pushed
+deployment-01GM8K17SAH7NV757FYP51WVRD: digest: sha256:874bffc0af95a0e62f0240671e4f0b8cffc0449bada865b0a4ead8e023b65acd size: 3236
+--> Pushing image done
+image: registry.fly.io/terrainn-api:deployment-01GM8K17SAH7NV757FYP51WVRD
+image size: 108 MB
+==> Creating release
+--> release v2 created
+
+--> You can detach the terminal anytime without stopping the deployment
+==> Monitoring deployment
+Logs: https://fly.io/apps/terrainn-api/monitoring
+
+ 1 desired, 1 placed, 0 healthy, 1 unhealthy [restarts: 2]
+Failed Instances
+
+Failure #1
+
+Instance
+ID              PROCESS VERSION REGION  DESIRED STATUS  HEALTH CHECKS   RESTARTS        CREATED 
+8e158b96        app     0       hkg     run     failed                  2               27s ago
+
+Recent Events
+TIMESTAMP               TYPE            MESSAGE
+2022-12-14T15:17:59Z    Received        Task received by client
+2022-12-14T15:17:59Z    Task Setup      Building Task Directory
+2022-12-14T15:18:10Z    Started         Task started by client
+2022-12-14T15:18:12Z    Terminated      Exit Code: 2
+2022-12-14T15:18:12Z    Restarting      Task restarting in 1.013762125s
+2022-12-14T15:18:21Z    Started         Task started by client
+2022-12-14T15:18:25Z    Terminated      Exit Code: 2
+2022-12-14T15:18:25Z    Restarting      Task restarting in 1.181961689s
+2022-12-14T15:18:35Z    Started         Task started by client
+2022-12-14T15:18:37Z    Terminated      Exit Code: 2
+2022-12-14T15:18:37Z    Not Restarting  Exceeded allowed attempts 2 in interval 5m0s and mode is "fail"
+2022-12-14T15:18:37Z    Alloc Unhealthy Unhealthy because of failed task
+
+2022-12-14T15:18:21Z   [info]Preparing to run: `/cnb/process/TerraInnAPI` as 1000
+2022-12-14T15:18:21Z   [info]2022/12/14 15:18:21 listening on [fdaa:1:342:a7b:7f47:8e15:8b96:2]:22 (DNS: [fdaa::3]:53)
+2022-12-14T15:18:21Z   [info]panic: open .env: no such file or directory
+2022-12-14T15:18:21Z   [info]goroutine 1 [running]:
+2022-12-14T15:18:21Z   [info]TerraInnAPI/config.Config({0x562f8bd709a1, 0x7})
+2022-12-14T15:18:21Z   [info]   TerraInnAPI/config/config.go:12 +0x74
+2022-12-14T15:18:21Z   [info]TerraInnAPI/database.Connect()
+2022-12-14T15:18:21Z   [info]   TerraInnAPI/database/connect.go:22 +0x3a
+2022-12-14T15:18:21Z   [info]main.main()
+2022-12-14T15:18:21Z   [info]   TerraInnAPI/main.go:28 +0x105
+2022-12-14T15:18:22Z   [info]Starting clean up.
+2022-12-14T15:18:30Z   [info]Starting instance
+2022-12-14T15:18:33Z   [info]Configuring virtual machine
+2022-12-14T15:18:33Z   [info]Pulling container image
+2022-12-14T15:18:34Z   [info]Unpacking image
+2022-12-14T15:18:34Z   [info]Preparing kernel init
+2022-12-14T15:18:35Z   [info]Configuring firecracker
+2022-12-14T15:18:35Z   [info]Starting virtual machine
+2022-12-14T15:18:35Z   [info]Starting init (commit: f447594)...
+2022-12-14T15:18:35Z   [info]Preparing to run: `/cnb/process/TerraInnAPI` as 1000
+2022-12-14T15:18:35Z   [info]2022/12/14 15:18:35 listening on [fdaa:1:342:a7b:7f47:8e15:8b96:2]:22 (DNS: [fdaa::3]:53)
+2022-12-14T15:18:35Z   [info]panic: open .env: no such file or directory
+2022-12-14T15:18:35Z   [info]goroutine 1 [running]:
+2022-12-14T15:18:35Z   [info]TerraInnAPI/config.Config({0x56198ec309a1, 0x7})
+2022-12-14T15:18:35Z   [info]   TerraInnAPI/config/config.go:12 +0x74
+2022-12-14T15:18:35Z   [info]   erraInnAPI/database.Connect()
+2022-12-14T15:18:35Z   [info]   TerraInnAPI/database/connect.go:22 +0x3a
+2022-12-14T15:18:35Z   [info]main.main()
+2022-12-14T15:18:35Z   [info]   TerraInnAPI/main.go:28 +0x105
+2022-12-14T15:18:36Z   [info]Starting clean up.
+--> v0 failed - Failed due to unhealthy allocations - no stable job version to auto revert to and deploying as v1
+
+--> Troubleshooting guide at https://fly.io/docs/getting-started/troubleshooting/
+Error abort
+
+
+PS D:\PROJECTS\TerraInnAPI> flyctl status
+App
+  Name     = terrainn-api
+  Owner    = personal
+  Version  = 0
+  Status   = dead
+  Hostname = terrainn-api.fly.dev
+  Platform = nomad
+
+Deployment Status
+  ID          = 59dea6a8-8a69-3880-4f15-3c453ca4123b
+  Version     = v0
+  Status      = failed
+  Description = Failed due to unhealthy allocations - no stable job version to auto revert to
+  Instances   = 1 desired, 1 placed, 0 healthy, 1 unhealthy
+
+Instances
+ID      PROCESS VERSION REGION  DESIRED STATUS  HEALTH CHECKS   RESTARTS        CREATED
+
+PS D:\PROJECTS\TerraInnAPI>
+
+
+
+
+//-------------------------------------- LÀN 2:
+PS D:\PROJECTS\TerraInnAPI> flyctl launch       
+An existing fly.toml file was found for app terrainn-api
+App is not running, deploy...
+==> Building image
+Remote builder fly-builder-lingering-sun-9545 ready
+==> Building image with Buildpacks
+--> docker host: 20.10.12 linux x86_64
+base: Pulling from paketobuildpacks/builder
+Digest: sha256:eb63ceee5af02e341ba534870f6501aa5a58bf9c1cf70a2d7ed6a1dab0fa5758
+Status: Image is up to date for paketobuildpacks/builder:base
+base-cnb: Pulling from paketobuildpacks/run
+Digest: sha256:dd32ea61706e174d594cd5fba4a38f68f1269f1be8caae1b08c1f2f84ac29060
+Status: Image is up to date for paketobuildpacks/run:base-cnb
+latest: Pulling from paketo-buildpacks/go
+Digest: sha256:15c90c75bea03a7b33c3004778d51883e9ff8842d785b8508cf782cc356c2ed1
+Status: Image is up to date for gcr.io/paketo-buildpacks/go:latest
+===> DETECTING
+5 of 9 buildpacks participating        
+paketo-buildpacks/ca-certificates 3.5.1
+paketo-buildpacks/go-dist         2.2.2
+paketo-buildpacks/git             1.0.0
+paketo-buildpacks/go-mod-vendor   1.0.6
+paketo-buildpacks/go-build        2.0.7
+===> ANALYZING
+Restoring metadata for "paketo-buildpacks/ca-certificates:helper" from app image
+Restoring metadata for "paketo-buildpacks/go-dist:go" from cache
+Restoring metadata for "paketo-buildpacks/go-mod-vendor:mod-cache" from cache
+Restoring metadata for "paketo-buildpacks/go-build:targets" from app image
+Restoring metadata for "paketo-buildpacks/go-build:gocache" from cache
+===> RESTORING
+Restoring data for "paketo-buildpacks/go-dist:go" from cache
+Restoring data for "paketo-buildpacks/go-mod-vendor:mod-cache" from cache
+Restoring data for "paketo-buildpacks/go-build:gocache" from cache
+===> BUILDING
+
+Paketo Buildpack for CA Certificates 3.5.1
+  https://github.com/paketo-buildpacks/ca-certificates
+  Launch Helper: Reusing cached layer
+Warning: BOM table is deprecated in this buildpack api version, though it remains supported for backwards compatibility. Buildpack authors should write BOM information to <layer>.sbom.<ext>, launch.sbom.<ext>, or build.sbom.<ext>.
+Paketo Buildpack for Go Distribution 2.2.2
+  Resolving Go version
+    Candidate version sources (in priority order):
+      go.mod    -> ">= 1.18"
+      <unknown> -> ""
+
+    Selected Go version (using go.mod): 1.19.4
+
+  Reusing cached layer /layers/paketo-buildpacks_go-dist/go
+
+Warning: BOM table is deprecated in this buildpack api version, though it remains supported for backwards compatibility. Buildpack authors should write BOM information to <layer>.sbom.<ext>, launch.sbom.<ext>, or build.sbom.<ext>.
+Warning: BOM table is deprecated in this buildpack api version, though it remains supported for backwards compatibility. Buildpack authors should write BOM information to <layer>.sbom.<ext>, launch.sbom.<ext>, or build.sbom.<ext>.
+Paketo Buildpack for Git 1.0.0
+  Configuring build environment
+    REVISION -> "4122bf56b7c882fab8de9988767703d9edac34b1"
+
+  Configuring launch environment
+    REVISION -> "4122bf56b7c882fab8de9988767703d9edac34b1"
+
+Paketo Buildpack for Go Mod Vendor 1.0.6
+  Checking module graph
+    Running 'go mod graph'
+      Completed in 205ms
+
+  Executing build process
+    Running 'go mod vendor'
+      Completed in 239ms
+
+  Generating SBOM for /workspace/go.mod
+      Completed in 7ms
+
+Paketo Buildpack for Go Build 2.0.7
+  Executing build process
+    Running 'go build -o /layers/paketo-buildpacks_go-build/targets/bin -buildmode pie -trimpath .'
+      Completed in 1.145s
+
+  Generating SBOM for /layers/paketo-buildpacks_go-build/targets/bin
+      Completed in 6ms
+
+  Assigning launch processes:
+    TerraInnAPI (default): /layers/paketo-buildpacks_go-build/targets/bin/TerraInnAPI
+
+===> EXPORTING
+Reusing layer 'paketo-buildpacks/ca-certificates:helper'
+Reusing layer 'paketo-buildpacks/git:git'
+Adding layer 'paketo-buildpacks/go-build:targets'
+Reusing 1/1 app layer(s)
+Reusing layer 'launcher'
+Reusing layer 'config'
+Reusing layer 'process-types'
+Adding label 'io.buildpacks.lifecycle.metadata'
+Adding label 'io.buildpacks.build.metadata'
+Adding label 'io.buildpacks.project.metadata'
+Adding label 'org.opencontainers.image.revision'
+Setting default process type 'TerraInnAPI'
+Saving registry.fly.io/terrainn-api:cache...
+*** Images (d4c60559c1a7):
+      registry.fly.io/terrainn-api:cache
+      registry.fly.io/terrainn-api:deployment-01GM8N9X1DM7X7QJMAVKM689ZA
+Reusing cache layer 'paketo-buildpacks/go-dist:go'
+Reusing cache layer 'paketo-buildpacks/go-mod-vendor:mod-cache'
+Adding cache layer 'paketo-buildpacks/go-build:gocache'
+--> Building image done
+==> Pushing image to fly
+The push refers to repository [registry.fly.io/terrainn-api]
+8ac9db4cd99d: Layer already exists
+cbd8319a189d: Layer already exists
+6c749df2cfd6: Layer already exists
+ea900f24d0ef: Layer already exists
+49022f4142d7: Pushed
+0fbb862e5999: Layer already exists
+d8355a9bda2e: Layer already exists
+ebe18aaca203: Layer already exists
+58cd5c829e72: Layer already exists
+bb79f4a86300: Layer already exists
+25b4e98574e1: Layer already exists
+15c5892817da: Layer already exists
+917d28d47a6a: Layer already exists
+45bbe3d22998: Layer already exists
+deployment-01GM8N9X1DM7X7QJMAVKM689ZA: digest: sha256:f887775e5adfb946d5d8c1fc14fb1b80731ecbeeccc8bc33d238f25f87b774cd size: 3236
+--> Pushing image done
+image: registry.fly.io/terrainn-api:deployment-01GM8N9X1DM7X7QJMAVKM689ZA
+image size: 108 MB
+==> Creating release
+--> release v1 created
+
+--> You can detach the terminal anytime without stopping the deployment
+==> Monitoring deployment
+Logs: https://fly.io/apps/terrainn-api/monitoring
+
+ 1 desired, 1 placed, 0 healthy, 1 unhealthy
+--> v1 failed - Failed due to unhealthy allocations - no stable job version to auto revert to and deploying as v2 
+
+--> Troubleshooting guide at https://fly.io/docs/getting-started/troubleshooting/
+Error abort
+
+
+PS D:\PROJECTS\TerraInnAPI> git add 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

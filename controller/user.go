@@ -77,9 +77,9 @@ func InsertUser(c *fiber.Ctx) error {
 	db := database.DB
 	user := new(model.User)
 	type paramRequest struct {
-		Phone    string
-		Password string
-		IsAdmin  bool `json:"is_admin"`
+		Phone    string `json:"phone"`
+		Password string `json:"password"`
+		IsAdmin  bool   `json:"is_admin"`
 	}
 
 	// param := new(paramRequest)

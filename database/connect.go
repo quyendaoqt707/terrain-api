@@ -19,13 +19,25 @@ var DB *gorm.DB
 func Connect() bool {
 	var err error
 	status := true
-	db_host := config.Config("DB_HOST")
-	db_port := config.Config("DB_PORT")
-	db_user := config.Config("DB_USER")
-	db_password := config.Config("DB_PASSWORD")
-	db_name := config.Config("DB_NAME")
+	//.ENV MODE:
+	// db_host := config.Config("DB_HOST")
+	// db_port := config.Config("DB_PORT")
+	// db_user := config.Config("DB_USER")
+	// db_password := config.Config("DB_PASSWORD")
+	// db_name := config.Config("DB_NAME")
+	// db_clearall := config.Config("DB_CLEARALL")
+	// db_init := config.Config("DB_INIT")
 
-	fmt.Println(db_password)
+	//.HARDCODE MODE:
+	db_host := "db4free.net"
+	db_port := "3306"
+	db_user := "quyen_dvt"
+	db_password := "VEKdEzf2e9EzdE"
+	db_name := "terrainn_db"
+	db_clearall := "true"
+	db_init := "true"
+
+	// fmt.Println(db_password)
 	// db_ssh := config.Config("DB_SSH")
 	// db_timezone := config.Config("APP_TIME_ZONE")
 
@@ -60,7 +72,7 @@ func Connect() bool {
 	Only use for dev
 	*/
 
-	if config.Config("DB_CLEARALL") == "true" {
+	if db_clearall == "true" {
 		DB.Migrator().DropTable(&model.User{})
 		DB.Migrator().DropTable(&model.Motel{})
 		DB.Migrator().DropTable(&model.MotelGroup{})
@@ -76,7 +88,7 @@ func Connect() bool {
 
 	}
 
-	if config.Config("DB_INIT") == "true" {
+	if db_init == "true" {
 		init_data(DB)
 	}
 	return status
