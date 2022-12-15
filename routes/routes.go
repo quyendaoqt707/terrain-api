@@ -41,7 +41,7 @@ func InitRoutes(app *fiber.App) {
 	motelGroup.Put("", controller.UpdateMotelGroup)
 
 	// Invoice
-	invoice := api.Group("/invoice")
+	invoice := api.Group("/invoice", middleware.AppAuthen)
 	invoice.Get("", controller.GetInvoice)
 	invoice.Post("", controller.CreateInvoice)
 	invoice.Delete(":id<int>", controller.DelInvoice)

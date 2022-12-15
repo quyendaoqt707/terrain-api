@@ -10,6 +10,9 @@ import (
 
 func GetInvoice(c *fiber.Ctx) error {
 	//Get detail
+	if c.Query("by-user") == "true" {
+		return getListInvoiceByUser(c)
+	}
 	//Get list
 	id := c.Query("id")
 	if id != "" {
@@ -56,7 +59,7 @@ func getInvoiceDetail(c *fiber.Ctx, id string) error {
 }
 
 func getListInvoiceByMonth(c *fiber.Ctx, groupId string, month string) error {
-	var returnStruct []struct {
+	type ReturnStruct struct {
 		Id        int    `json:"id"`
 		RoomName  string `json:"room_name"`
 		ElecUsed  int    `json:"elec_used"`
@@ -64,12 +67,44 @@ func getListInvoiceByMonth(c *fiber.Ctx, groupId string, month string) error {
 		PayStatus int    `json:"pay_status"`
 	}
 
+	returnStruct := []ReturnStruct{}
+
 	sql := fmt.Sprintf(`
 	SELECT invoices.id, elec_index_after - elec_index_before AS  elec_used, pay_status,
 	water_index_after - water_index_before AS water_used,
 	motel.name AS room_name
 	FROM invoices LEFT JOIN motel ON motel.id = invoices.motel_id
-	WHERE motel.group_id =1 AND invoice_date ='%s'`, month) //2022-12
+	WHERE motel.group_id =%s AND invoice_date ='%s'`, groupId, month) //2022-12
+	rs := database.DB.Raw(sql).Scan(&returnStruct)
+
+	if rs.Error != nil {
+		fmt.Println(rs.Error)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "system_error"})
+
+	}
+
+	return c.JSON(returnStruct)
+}
+
+func getListInvoiceByUser(c *fiber.Ctx) error {
+	type ReturnStruct struct {
+		Id          int    `json:"id"`
+		RentalPrice int    `json:"rental_price"`
+		InvoiceDate string `json:"invoice_date"`
+		PayStatus   int    `json:"pay_status"`
+		DueDate     string `json:"due_date"`
+	}
+
+	user := new(model.User)
+	database.DB.Where("phone = ?", c.Locals("phone").(string)).Find(&user)
+
+	returnStruct := []ReturnStruct{}
+
+	sql := fmt.Sprintf(`
+	SELECT invoices.id, rental_price, pay_status, due_date, invoice_date
+	FROM invoices
+	WHERE motel_id = %d
+	ORDER BY create_at DESC`, user.MotelId) //2022-12
 	rs := database.DB.Raw(sql).Scan(&returnStruct)
 
 	if rs.Error != nil {

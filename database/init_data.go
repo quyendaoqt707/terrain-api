@@ -27,6 +27,7 @@ func initUser() {
 	user1.CidNumber = "111111111"
 	user1.IsAdmin = false
 	user1.AvatarUrl = "img_16710903510.jpg"
+	user1.MotelId = 1
 	DB.Create(user1)
 
 	user2 := new(model.User)
@@ -38,6 +39,7 @@ func initUser() {
 	user2.CidNumber = "22222222"
 	user2.IsAdmin = false
 	user2.AvatarUrl = "img_167109035002.png"
+	user2.MotelId = 2
 	DB.Create(user2)
 
 	user3 := new(model.User)
@@ -49,6 +51,7 @@ func initUser() {
 	user3.CidNumber = "33333333"
 	user3.IsAdmin = false
 	user3.AvatarUrl = "img_167109035009.jpg"
+	user3.MotelId = 2
 	DB.Create(user3)
 
 	user4 := new(model.User)
@@ -60,6 +63,7 @@ func initUser() {
 	user4.CidNumber = "44444444"
 	user4.IsAdmin = false
 	user4.AvatarUrl = "img_167109035006.jpg"
+	// user4.MotelId = 1
 	DB.Create(user4)
 
 	user5 := new(model.User)

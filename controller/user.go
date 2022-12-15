@@ -4,9 +4,17 @@ import (
 	"TerraInnAPI/database"
 	"TerraInnAPI/model"
 	"TerraInnAPI/utils"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
+
+type userMoreStruct struct {
+	model.User
+	GroupName string `json:"group_name"`
+	RoomName  string `json:"room_name"`
+	IsRented  bool   `json:"is_rented"`
+}
 
 func Login(c *fiber.Ctx) error {
 
@@ -54,33 +62,54 @@ func GetUser(c *fiber.Ctx) error {
 		return GetUserByRoom(c)
 	}
 
-	user := new(model.User)
-	queryResult := database.DB.Model(model.User{}).Where("phone = ?", c.Locals("phone").(string)).First(&user)
+	var userMore []userMoreStruct
+	queryResult := database.DB.Model(model.User{}).
+		Select("user.*, group_name, name as room_name").
+		Joins("LEFT JOIN motel ON motel.id = user.motel_id").
+		Joins("LEFT JOIN motel_group ON motel.group_id = motel_group.id").
+		Where("phone = ?", c.Locals("phone").(string)).
+		Scan(&userMore)
 	if queryResult.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status_code": STATUS_CODE_FAILURE, "message": "system_error"})
 	}
 
-	// type ReturnStruct struct {
-	// 	// Id          int    `json:"id"` //row_id
-	// 	Email       string `json:"email"`
-	// 	Phone       string `json:"phone"`
-	// 	FullName    string `json:"full_name"`
-	// 	DateOfBirth string `json:"date_of_birth"`
-	// 	CidNumber   string `json:"cid_number"`
-	// 	AvatarUrl   string `json:"avatar_url"`
-	// }
-	// returnUser := new(ReturnStruct)
-	// deepcopier.Copy(user).To(returnUser)
+	for idx, item := range userMore {
+		if item.MotelId != 0 {
+			userMore[idx].IsRented = true
+		}
+	}
 
-	return c.JSON(user)
+	return c.JSON(userMore)
 }
 
 func GetUserByRoom(c *fiber.Ctx) error {
 	motelId := c.Query("motel-id")
-	var users []model.User
-	queryResult := database.DB.Model(model.User{}).Find(&users, "motel_id = "+motelId)
+	// var users []model.User
+
+	type UserByRoom struct {
+		Name        string `json:"name"`
+		Phone       string `json:"phone"`
+		Age         int    `json:"age"`
+		DateOfBirth string `json:"date_of_birth"`
+		Image       string `json:"image"`
+	}
+
+	users := []UserByRoom{} //return empty list instead null
+	// queryResult := database.DB.Model(model.User{}).Where("motel_id = ?", motelId).Find(&users)
+	queryResult := database.DB.Model(model.User{}).
+		Select("full_name, phone, avatar_url as image, date_of_birth").
+		Where("motel_id = ?", motelId).Scan(&users)
+
 	if queryResult.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status_code": STATUS_CODE_FAILURE, "message": "system_error"})
+	}
+
+	for idx, item := range users {
+		year, err := strconv.Atoi(item.DateOfBirth[:4])
+		if err == nil {
+			users[idx].Age = 2022 - year
+		}
+
 	}
 
 	return c.JSON(users)
