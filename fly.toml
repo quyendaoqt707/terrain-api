@@ -17,8 +17,8 @@ processes = []
   DB_USER = "quyen_dvt"
   DB_PASSWORD = "VEKdEzf2e9EzdE"
   DB_NAME = "terrainn_db"
-  DB_CLEARALL = "true"
-  DB_INIT = "true"
+  DB_CLEARALL = "false"
+  DB_INIT = "false"
   DEBUG_MODE = "true"
 
 [experimental]

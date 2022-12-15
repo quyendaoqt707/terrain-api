@@ -20,10 +20,9 @@ func getMotelList(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "system_error"})
 	}
 
-	if rs.RowsAffected == 0 {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "not_found"})
-
-	}
+	// if rs.RowsAffected == 0 {
+	// 	return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"message": "not_found"})
+	// }
 
 	return c.Status(fiber.StatusOK).JSON(motelList)
 }
