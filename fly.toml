@@ -21,7 +21,7 @@ processes = []
   DB_PASSWORD = "TR7Uj9MVti"
   DB_NAME = "sql6584854"
   DB_CLEARALL = "false"
-  DB_INIT = "true"
+  DB_INIT = "false"
   DEBUG_MODE = "true"
   DB_MIGRATE= "true"
 

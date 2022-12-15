@@ -62,7 +62,7 @@ func GetUser(c *fiber.Ctx) error {
 		return GetUserByRoom(c)
 	}
 
-	var userMore []userMoreStruct
+	var userMore userMoreStruct
 	queryResult := database.DB.Model(model.User{}).
 		Select("user.*, group_name, name as room_name").
 		Joins("LEFT JOIN motel ON motel.id = user.motel_id").
@@ -73,10 +73,14 @@ func GetUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status_code": STATUS_CODE_FAILURE, "message": "system_error"})
 	}
 
-	for idx, item := range userMore {
-		if item.MotelId != 0 {
-			userMore[idx].IsRented = true
-		}
+	// for idx, item := range userMore {
+	// 	if item.MotelId != 0 {
+	// 		userMore[idx].IsRented = true
+	// 	}
+	// }
+
+	if userMore.MotelId != 0 {
+		userMore.IsRented = true
 	}
 
 	return c.JSON(userMore)
@@ -97,7 +101,7 @@ func GetUserByRoom(c *fiber.Ctx) error {
 	users := []UserByRoom{} //return empty list instead null
 	// queryResult := database.DB.Model(model.User{}).Where("motel_id = ?", motelId).Find(&users)
 	queryResult := database.DB.Model(model.User{}).
-		Select("full_name, phone, avatar_url as image, date_of_birth").
+		Select("full_name as name, phone, avatar_url as image, date_of_birth").
 		Where("motel_id = ?", motelId).Scan(&users)
 
 	if queryResult.Error != nil {

@@ -9,11 +9,28 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type RequestMore struct {
+	Id          int    `json:"id" gorm:"primaryKey; autoIncreament"`
+	Creator     string `json:"creator"` //Creator
+	CreatorName string `json:"creator_name"`
+	RoomName    string `json:"room_name"`
+	GroupName   string `json:"group_name"`
+	IsFromAdmin bool   `json:"is_from_admin"`
+	MotelId     int    `json:"motel_id"`
+	RequestType int    `json:"type"` //Thuee phong//tra phong
+	// TypeName    string    `json:"type_name"`
+	Status   int       `json:"status"` //0
+	Title    string    `json:"title"`
+	DueDate  string    `json:"due_date"`
+	Content  string    `json:"content"`
+	CreateAt time.Time `json:"create_at" gorm:"autoCreateTime"`
+}
+
 func GetRequest(c *fiber.Ctx) error {
 	//Get detail
 	//Get list
 	if c.Query("by-admin") == "true" {
-		return GetRequestByAdmin(c)
+		return GetAllRequestToAdmin(c)
 	}
 
 	id := c.Query("id")
@@ -31,23 +48,8 @@ func GetRequest(c *fiber.Ctx) error {
 }
 
 func getRequestById(c *fiber.Ctx, id string) error {
-	type ReturnStruct struct {
-		Id          int    `json:"id" gorm:"primaryKey; autoIncreament"`
-		Creator     string `json:"creator"` //Creator
-		CreatorName string `json:"creator_name"`
-		RoomName    string `json:"room_name"`
-		GroupName   string `json:"group_name"`
-		IsFromAdmin bool   `json:"is_from_admin"`
-		MotelId     int    `json:"motel_id"`
-		RequestType int    `json:"type"` //Thuee phong//tra phong
-		// TypeName    string    `json:"type_name"`
-		Status   int       `json:"status"` //0
-		Title    string    `json:"title"`
-		DueDate  string    `json:"due_date"`
-		Content  string    `json:"content"`
-		CreateAt time.Time `json:"create_at" gorm:"autoCreateTime"`
-	}
-	returnStruct := new(ReturnStruct)
+
+	returnStruct := new(RequestMore)
 	// request := new(model.Request)
 
 	// rs := database.DB.First(&request, id) //with primary key
@@ -72,9 +74,16 @@ WHERE request.id = %s`, id)
 }
 
 func getRequestByRoom(c *fiber.Ctx, roomId string) error {
-	var returnStruct []model.Request
+	var returnStruct []RequestMore
 
-	rs := database.DB.Where("motel_id = ? ", roomId).Find(&returnStruct)
+	// rs := database.DB.Where("motel_id = ? ", roomId).Find(&returnStruct)
+	sql := fmt.Sprintf(`
+	SELECT request.*,user.full_name AS creator_name, motel.name AS room_name, motel_group.group_name FROM request
+LEFT JOIN user ON user.phone = request.creator
+LEFT JOIN motel ON motel.id = request.motel_id
+LEFT JOIN motel_group ON motel_group.id = motel.group_id
+WHERE request.motel_id = %s`, roomId)
+	rs := database.DB.Raw(sql).Scan(&returnStruct)
 
 	if rs.Error != nil {
 		fmt.Println(rs.Error)
@@ -85,13 +94,21 @@ func getRequestByRoom(c *fiber.Ctx, roomId string) error {
 	return c.JSON(returnStruct)
 }
 
-func GetRequestByAdmin(c *fiber.Ctx) error {
-	var returnStruct []model.Request
-	// sql := `SELECT * FROM request`
-	rs := database.DB.Model(model.Request{}).
-		Joins("LEFT JOIN motel ON motel.id = request.motel_id").
-		Joins("LEFT JOIN motel_group ON motel_group.id = motel.group_id").
-		Where("owner_id = ?", c.Locals("phone").(string)).Find(&returnStruct)
+func GetAllRequestToAdmin(c *fiber.Ctx) error {
+	var returnStruct []RequestMore
+	// // sql := `SELECT * FROM request`
+	// rs := database.DB.Model(model.Request{}).
+	// 	Joins("LEFT JOIN motel ON motel.id = request.motel_id").
+	// 	Joins("LEFT JOIN motel_group ON motel_group.id = motel.group_id").
+	// 	Where("owner_id = ?", c.Locals("phone").(string)).Find(&returnStruct)
+
+	sql := fmt.Sprintf(`
+	SELECT request.*,user.full_name AS creator_name, motel.name AS room_name, motel_group.group_name FROM request
+LEFT JOIN user ON user.phone = request.creator
+LEFT JOIN motel ON motel.id = request.motel_id
+LEFT JOIN motel_group ON motel_group.id = motel.group_id
+WHERE owner_id = %s`, c.Locals("phone").(string))
+	rs := database.DB.Raw(sql).Scan(&returnStruct)
 
 	if rs.Error != nil {
 		fmt.Println(rs.Error)
