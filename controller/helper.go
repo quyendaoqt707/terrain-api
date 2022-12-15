@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"TerraInnAPI/database"
+	"TerraInnAPI/model"
 	"fmt"
 	"strings"
 	"time"
@@ -52,4 +54,60 @@ func UploadImg(c *fiber.Ctx) error {
 	// fmt.Println(files)
 
 	return c.JSON(fiber.Map{"img_id": imgIds})
+}
+
+func AcceptJoinRq(c *fiber.Ctx) error {
+	db := database.DB
+
+	type UpdateParam struct {
+		RequestId int `json:"request_id"`
+		MotelId   int `json:"motel_id"`
+		// Creator   string `json:"creator"`
+		Action int `json:"action"` //1: Accept/ 2: Deny 3: Mark as done (sửa chữa)
+	}
+
+	param := new(UpdateParam)
+
+	err := c.BodyParser(param)
+	// if err != nil || validate.Struct(param) != nil {
+	if err != nil || param.Action == 0 || param.RequestId == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status_code": STATUS_CODE_FAILURE, "message": "param_invalid"})
+	}
+
+	if (param.Action == 1 || param.Action == 2) && param.MotelId == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status_code": STATUS_CODE_FAILURE, "message": "param_invalid"})
+
+	}
+	// phone := c.Locals("phone").(string)
+
+	request := new(model.Request)
+	rs := db.Find(&request, param.RequestId)
+	if rs.RowsAffected == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status_code": STATUS_CODE_FAILURE, "message": "request_id_invalid"})
+	}
+
+	// if request.RequestType ==1 { //Trả hoặc thuê phòng
+	// }
+
+	if param.Action == 1 {
+		// err := db.Exec(`UPDATE "tbl_user_info" SET language= ?  WHERE user_name = ?`, language, username)
+		rs := db.Model(model.User{}).Where("phone = ?", request.Creator).Updates(model.User{MotelId: param.MotelId}) //Where phải trước Updates
+		if rs.Error == nil && rs.RowsAffected > 0 {
+			return c.Status(fiber.StatusOK).JSON(fiber.Map{"status_code": STATUS_CODE_SUCCESS, "message": "success"})
+		}
+	}
+
+	if param.Action == 2 || param.Action == 3 {
+		request.Status = 2 //Đã hoàn thành
+		rs := db.Save(request)
+		if rs.Error == nil && rs.RowsAffected > 0 {
+			return c.Status(fiber.StatusOK).JSON(fiber.Map{"status_code": STATUS_CODE_SUCCESS, "message": "success"})
+		}
+	}
+
+	// Return response
+	// return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status_code": STATUS_CODE_FAILURE, "message": "system_error"})
+
+	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status_code": STATUS_CODE_FAILURE, "message": "bad_request"})
+
 }

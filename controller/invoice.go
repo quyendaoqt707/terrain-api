@@ -61,10 +61,11 @@ func getListInvoiceByMonth(c *fiber.Ctx, groupId string, month string) error {
 		RoomName  string `json:"room_name"`
 		ElecUsed  int    `json:"elec_used"`
 		WaterUsed int    `json:"water_used"`
+		PayStatus int    `json:"pay_status"`
 	}
 
 	sql := fmt.Sprintf(`
-	SELECT invoices.id, elec_index_after - elec_index_before AS  elec_used,
+	SELECT invoices.id, elec_index_after - elec_index_before AS  elec_used, pay_status,
 	water_index_after - water_index_before AS water_used,
 	motel.name AS room_name
 	FROM invoices LEFT JOIN motel ON motel.id = invoices.motel_id

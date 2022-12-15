@@ -16,6 +16,7 @@ type Motel struct {
 	GarbageFee  int    `json:"garbage_fee"`
 	ParkingFee  int    `json:"parking_fee"`
 	Images      string `json:"images"`
+	ShortDesc   string `json:"short_desc"`
 }
 
 func (Motel) TableName() string {

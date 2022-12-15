@@ -32,8 +32,8 @@ type Request struct {
 	Creator     string    `json:"creator"` //Creator
 	IsFromAdmin bool      `json:"is_from_admin"`
 	MotelId     int       `json:"motel_id"`
-	RequestType int       `json:"type"`   // Loại yêu cầu: 1: thuê phòng, 2 trả phòng, 3 sửa chữa
-	Status      int       `json:"status"` //chưa hoàn thành 1, đã hoàn thành 2 nghe
+	RequestType int       `json:"type"`   // Loại yêu cầu: 1: thuê phòng, 2 trả phòng, 3 sửa chữa , 4 : Thông báo từ admin xuống user??
+	Status      int       `json:"status"` // Chưa hoàn thành 1, đã hoàn thành 2 nghe
 	Title       string    `json:"title"`
 	DueDate     string    `json:"due_date"`
 	Content     string    `json:"content"`

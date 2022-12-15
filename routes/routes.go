@@ -53,6 +53,7 @@ func InitRoutes(app *fiber.App) {
 	request.Post("", controller.CreateRequest)
 	request.Delete(":id<int>", controller.DelRequest)
 	request.Put("", controller.UpdateRequest)
+	request.Post("/action", controller.AcceptJoinRq)
 
 	//Helper
 	api.Post("/asset", controller.UploadImg)
