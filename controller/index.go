@@ -8,5 +8,5 @@ const STATUS_CODE_SUCCESS = 0
 const STATUS_CODE_FAILURE = 1
 
 func Wellcome(c *fiber.Ctx) error {
-	return c.JSON(fiber.Map{"message": "Wellcome to Terra API"})
+	return c.JSON(fiber.Map{"message": "Welcome to Terra API :)))"})
 }

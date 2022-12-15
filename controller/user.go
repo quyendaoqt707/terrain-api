@@ -187,6 +187,7 @@ func UpdateProfile(c *fiber.Ctx) error {
 		DateOfBirth string `json:"date_of_birth" validate:"required"`
 		CidNumber   string `json:"cid_number" validate:"required"`
 		MotelId     int    `json:"motel_id"`
+		AvatarUrl   string `json:"avatar_url"`
 	}
 
 	param := new(UpdateParam)

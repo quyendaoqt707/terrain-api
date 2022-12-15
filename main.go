@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{BodyLimit: 3 * 1024 * 1024})
 
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "*",

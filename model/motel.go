@@ -15,7 +15,7 @@ type Motel struct {
 	ServiceFee  int    `json:"service_fee"`
 	GarbageFee  int    `json:"garbage_fee"`
 	ParkingFee  int    `json:"parking_fee"`
-	// Images      []int `gorm:"type:integer[]"`
+	Images      string `json:"images"`
 }
 
 func (Motel) TableName() string {

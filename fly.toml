@@ -15,13 +15,13 @@ processes = []
 [env]
   PORT = "3000"
   PRODUCTION = "true"
-  DB_HOST = "db4free.net"
+  DB_HOST = "sql6.freesqldatabase.com"
   DB_PORT = "3306"
-  DB_USER = "quyen_dvt"
-  DB_PASSWORD = "VEKdEzf2e9EzdE"
-  DB_NAME = "terrainn_db"
+  DB_USER = "sql6584854"
+  DB_PASSWORD = "TR7Uj9MVti"
+  DB_NAME = "sql6584854"
   DB_CLEARALL = "false"
-  DB_INIT = "false"
+  DB_INIT = "true"
   DEBUG_MODE = "true"
   DB_MIGRATE= "true"
 

@@ -8,9 +8,26 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func getMotelListForGuest(c *fiber.Ctx) error {
+	var motelList []struct {
+		GroupName string `json:"group_name"`
+		model.Motel
+	}
+	// var motelList []model.Motel
+	// rs := database.DB.Find(&motelList) //with primary key
+
+	rs := database.DB.Model(model.Motel{}).Select("motel.* , group_name").Joins("JOIN motel_group ON motel_group.id = motel.group_id").Scan(&motelList)
+
+	if rs.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "system_error"})
+	}
+	return c.Status(fiber.StatusOK).JSON(motelList)
+}
+
 func getMotelList(c *fiber.Ctx) error {
-	groupId := c.Query("group-id")
 	var motelList []model.Motel
+
+	groupId := c.Query("group-id")
 	if len(groupId) == 0 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "bad_request"})
 	}
@@ -28,6 +45,10 @@ func getMotelList(c *fiber.Ctx) error {
 }
 
 func GetModelDetail(c *fiber.Ctx) error {
+	forGuest := c.Query("guest")
+	if forGuest == "true" {
+		return getMotelListForGuest(c)
+	}
 
 	groupId := c.Query("group-id")
 	if len(groupId) != 0 {
@@ -99,34 +120,4 @@ func DelMotel(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "success"})
 
-}
-
-func UploadMotelImg(c *fiber.Ctx) error {
-
-	// fileHeader, _ := c.FormFile("files")
-	// c.SaveFile(fileHeader, "/assets")
-
-	formKeys, err := c.MultipartForm()
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "bad_request"})
-	}
-
-	for formFieldName, fileHeaders := range formKeys.File {
-		fmt.Println(formFieldName)
-
-		for _, fileHeader := range fileHeaders {
-			// fmt.Println(fileHeader)
-			err := c.SaveFile(fileHeader, "./assets/"+fileHeader.Filename)
-			if err != nil {
-				fmt.Println(err)
-				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "system_error"})
-
-			}
-		}
-	}
-
-	// files := c.FormValue("files")
-	// fmt.Println(files)
-
-	return c.SendStatus(200)
 }
