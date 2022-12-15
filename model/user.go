@@ -12,6 +12,7 @@ type User struct {
 	DateOfBirth string `json:"date_of_birth"`
 	CidNumber   string `json:"cid_number"`
 	AvatarUrl   string `json:"avatar_url"`
+	MotelId     int    `json:"motel_id"`
 }
 
 func (User) TableName() string {

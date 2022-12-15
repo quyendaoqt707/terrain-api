@@ -9,6 +9,9 @@ processes = []
   builder = "paketobuildpacks/builder:base"
   buildpacks = ["gcr.io/paketo-buildpacks/go"]
 
+  [build.args]
+    BP_KEEP_FILES = "assets/*"
+
 [env]
   PORT = "3000"
   PRODUCTION = "true"
@@ -20,6 +23,7 @@ processes = []
   DB_CLEARALL = "false"
   DB_INIT = "false"
   DEBUG_MODE = "true"
+  DB_MIGRATE= "true"
 
 [experimental]
   allowed_public_ports = []

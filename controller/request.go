@@ -12,6 +12,10 @@ import (
 func GetRequest(c *fiber.Ctx) error {
 	//Get detail
 	//Get list
+	if c.Query("by-admin") == "true" {
+		return GetRequestByAdmin(c)
+	}
+
 	id := c.Query("id")
 	if id != "" {
 		return getRequestById(c, id)
@@ -81,6 +85,23 @@ func getRequestByRoom(c *fiber.Ctx, roomId string) error {
 	return c.JSON(returnStruct)
 }
 
+func GetRequestByAdmin(c *fiber.Ctx) error {
+	var returnStruct []model.Request
+	// sql := `SELECT * FROM request`
+	rs := database.DB.Model(model.Request{}).
+		Joins("LEFT JOIN motel ON motel.id = request.motel_id").
+		Joins("LEFT JOIN motel_group ON motel_group.id = motel.group_id").
+		Where("owner_id = ?", c.Locals("phone").(string)).Find(&returnStruct)
+
+	if rs.Error != nil {
+		fmt.Println(rs.Error)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "system_error"})
+
+	}
+
+	return c.JSON(returnStruct)
+}
+
 func CreateRequest(c *fiber.Ctx) error {
 	var request model.Request
 	if c.BodyParser(&request) != nil {
@@ -89,7 +110,7 @@ func CreateRequest(c *fiber.Ctx) error {
 
 	// fmt.Printf("%+v", invoice)
 	// motelGroup.OwnerId = c.Locals("phone").(string)
-
+	request.Creator = c.Locals("phone").(string)
 	rs := database.DB.Create(&request) //must be pass an address, otherwise -> panic: reflect.flag.mustBeAssignableSlow(0xc0000b2d00?)
 	if rs.Error != nil || rs.RowsAffected == 0 {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"message": "system_error"})

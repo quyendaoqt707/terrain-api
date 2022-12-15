@@ -30,6 +30,7 @@ func Connect() bool {
 	db_clearall := "true"
 	db_init := "true"
 	db_debugmode := "true"
+	db_migrate := "true"
 	//Check enviroment mode:
 	if os.Getenv("PRODUCTION") == "true" {
 		fmt.Println("**** ENV MODE = PRODUCTION ****")
@@ -43,6 +44,7 @@ func Connect() bool {
 		db_clearall = os.Getenv("DB_CLEARALL")
 		db_init = os.Getenv("DB_INIT")
 		db_debugmode = os.Getenv("DEBUG_MODE")
+		db_migrate = os.Getenv("DB_MIGRATE")
 	} else {
 		fmt.Println("**** ENV MODE = DEVELOP ****")
 
@@ -55,6 +57,8 @@ func Connect() bool {
 		db_clearall = config.Config("DB_CLEARALL")
 		db_init = config.Config("DB_INIT")
 		db_debugmode = config.Config("DEBUG_MODE")
+		db_migrate = config.Config("DB_MIGRATE")
+
 	}
 
 	// db_ssh := config.Config("DB_SSH")
@@ -100,13 +104,15 @@ func Connect() bool {
 		DB.Migrator().DropTable(&model.Invoice{})
 		DB.Migrator().DropTable(&model.Request{})
 
+	}
+
+	if db_migrate == "true" {
 		// Migrate the database
 		DB.AutoMigrate(&model.User{})
 		DB.AutoMigrate(&model.Motel{})
 		DB.AutoMigrate(&model.MotelGroup{})
 		DB.AutoMigrate(&model.Invoice{})
 		DB.AutoMigrate(&model.Request{})
-
 	}
 
 	if db_init == "true" {

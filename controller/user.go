@@ -6,7 +6,6 @@ import (
 	"TerraInnAPI/utils"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/ulule/deepcopier"
 )
 
 func Login(c *fiber.Ctx) error {
@@ -50,25 +49,41 @@ func Logout(c *fiber.Ctx) error {
 
 //For profile page
 func GetUser(c *fiber.Ctx) error {
+
+	if c.Query("motel-id") != "" {
+		return GetUserByRoom(c)
+	}
+
 	user := new(model.User)
 	queryResult := database.DB.Model(model.User{}).Where("phone = ?", c.Locals("phone").(string)).First(&user)
 	if queryResult.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status_code": STATUS_CODE_FAILURE, "message": "system_error"})
 	}
 
-	type ReturnStruct struct {
-		// Id          int    `json:"id"` //row_id
-		Email       string `json:"email"`
-		Phone       string `json:"phone"`
-		FullName    string `json:"full_name"`
-		DateOfBirth string `json:"date_of_birth"`
-		CidNumber   string `json:"cid_number"`
-		AvatarUrl   string `json:"avatar_url"`
-	}
-	returnUser := new(ReturnStruct)
-	deepcopier.Copy(user).To(returnUser)
+	// type ReturnStruct struct {
+	// 	// Id          int    `json:"id"` //row_id
+	// 	Email       string `json:"email"`
+	// 	Phone       string `json:"phone"`
+	// 	FullName    string `json:"full_name"`
+	// 	DateOfBirth string `json:"date_of_birth"`
+	// 	CidNumber   string `json:"cid_number"`
+	// 	AvatarUrl   string `json:"avatar_url"`
+	// }
+	// returnUser := new(ReturnStruct)
+	// deepcopier.Copy(user).To(returnUser)
 
-	return c.JSON(returnUser)
+	return c.JSON(user)
+}
+
+func GetUserByRoom(c *fiber.Ctx) error {
+	motelId := c.Query("motel-id")
+	var users []model.User
+	queryResult := database.DB.Model(model.User{}).Find(&users, "motel_id = "+motelId)
+	if queryResult.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status_code": STATUS_CODE_FAILURE, "message": "system_error"})
+	}
+
+	return c.JSON(users)
 }
 
 func InsertUser(c *fiber.Ctx) error {
@@ -171,6 +186,7 @@ func UpdateProfile(c *fiber.Ctx) error {
 		FullName    string `json:"full_name" validate:"required"`
 		DateOfBirth string `json:"date_of_birth" validate:"required"`
 		CidNumber   string `json:"cid_number" validate:"required"`
+		MotelId     int    `json:"motel_id"`
 	}
 
 	param := new(UpdateParam)
@@ -185,7 +201,7 @@ func UpdateProfile(c *fiber.Ctx) error {
 	// err := db.Exec(`UPDATE "tbl_user_info" SET language= ?  WHERE user_name = ?`, language, username)
 	rs := db.Model(model.User{}).Where("phone = ?", phone).Updates(model.User{Phone: param.Phone, Email: param.Email, FullName: param.FullName, DateOfBirth: param.DateOfBirth, CidNumber: param.CidNumber}) //Where phải trước Updates
 	if rs.Error == nil && rs.RowsAffected > 0 {
-		return c.Status(fiber.StatusOK).JSON(fiber.Map{"status_code": STATUS_CODE_SUCCESS, "message": "success"})
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{"status_code": STATUS_CODE_SUCCESS, "message": "success", "new_token": utils.GenBase64Token(param.Phone)})
 
 	}
 	// Return response

@@ -49,7 +49,7 @@ func InitRoutes(app *fiber.App) {
 	invoice.Put("", controller.UpdateInvoice)
 
 	// Request
-	request := api.Group("/request")
+	request := api.Group("/request", middleware.AppAuthen)
 	request.Get("", controller.GetRequest)
 	request.Post("", controller.CreateRequest)
 	request.Delete(":id<int>", controller.DelRequest)
